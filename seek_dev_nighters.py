@@ -3,23 +3,28 @@ import datetime
 from pytz import timezone
 
 
-def send_get_request(url):
-    response = requests.get(url)
+def send_get_request(url, payload=None):
+    response = requests.get(url, params=payload)
     return response.json()
 
 
+def get_records(page):
+    url = 'https://devman.org/api/challenges/solution_attempts/'
+    payload = {'page': page}
+    attempts = send_get_request(url, payload)
+    return attempts['records'], attempts['number_of_pages']
+
+
 def create_attempts_list():
-    first_page = 1
-    second_page = 2
-    url = 'https://devman.org/api/challenges/solution_attempts/?page={0}'
     attempts_list = []
-    solution_attempts = send_get_request(url.format(first_page))
-    attempts_list = solution_attempts['records'].copy()
-    pages_num = solution_attempts['number_of_pages']
-    if pages_num > first_page:
-        for page in range(second_page, pages_num+1):
-            solution_attempts = send_get_request(url.format(int(page)))
-            attempts_list.extend(solution_attempts['records'].copy())
+    page = 1
+    while True:
+        json_data = get_records(page)[0]
+        pages_num = get_records(page)[1]
+        attempts_list.extend(json_data)
+        page += 1
+        if page > pages_num:
+            break
     return attempts_list
 
 
