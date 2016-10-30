@@ -15,7 +15,7 @@
 
 Для выполнения HTTP-запросов должен быть установлен модуль [requests][].
 
-Для получения временной зоны должен быть установлен модуль [pytz][].
+Для получения временной зоны и часа отправки задания на проверку должны быть установлены модули [pytz][] и [datetime][].
 
 ## Поддержка
 
@@ -29,9 +29,14 @@
 
 Документацию к модулю pytz можно получить по [ссылке2][].
 
+Документацию к модулю datetime можно получить по [ссылке3][].
+
+
 [Github'а]: https://github.com
 [requests]: https://pypi.python.org/pypi/requests/2.11.1
 [pytz]: https://pypi.python.org/pypi/pytz/
+[datetime]: https://pypi.python.org/pypi/DateTime/4.1.1
 [обсуждение]: https://github.com/santax666/15_midnighters/issues
 [ссылке1]: http://docs.python-requests.org/en/master/
 [ссылке2]: http://pythonhosted.org/pytz/
+[ссылке3]: https://docs.python.org/3/library/datetime.html

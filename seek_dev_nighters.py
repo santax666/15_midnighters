@@ -3,15 +3,10 @@ import datetime
 from pytz import timezone
 
 
-def send_get_request(url, payload=None):
-    response = requests.get(url, params=payload)
-    return response.json()
-
-
 def get_records(page):
     url = 'https://devman.org/api/challenges/solution_attempts/'
     payload = {'page': page}
-    attempts = send_get_request(url, payload)
+    attempts = requests.get(url, params=payload).json()
     return attempts['records'], attempts['number_of_pages']
 
 
@@ -19,8 +14,7 @@ def create_attempts_list():
     attempts_list = []
     page = 1
     while True:
-        json_data = get_records(page)[0]
-        pages_num = get_records(page)[1]
+        json_data, pages_num = get_records(page)
         attempts_list.extend(json_data)
         page += 1
         if page > pages_num:
@@ -39,9 +33,9 @@ def get_hour_from_timestamp(time_stamp, time_zone):
 
 
 def is_night_time(hour):
-    night_start = 0
-    night_stop = 4
-    return night_start <= hour < night_stop
+    NIGHT_START_HOUR = 0
+    NIGHT_STOP_HOUR = 4
+    return NIGHT_START_HOUR <= hour < NIGHT_STOP_HOUR
 
 
 def get_midnighters(attempts_list):
